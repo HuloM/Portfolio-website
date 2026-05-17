@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Matthieu Dubray — Systems Administrator</title>
+<meta name="description" content="Matthieu Dubray — IT Engineer & Systems Administrator based in Seattle, WA. Microsoft 365, Azure AD, network infrastructure, security response." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>▮</text></svg>" />
+<style>
+  :root {
+    --bg: #0a0c10;
+    --bg-elev: #11141b;
+    --bg-card: #161a23;
+    --bg-hover: #1c2230;
+    --border: #1f2430;
+    --border-bright: #2a3142;
+    --text: #e6edf3;
+    --text-dim: #8b949e;
+    --text-muted: #5a6370;
+    --cyan: #7dd3fc;
+    --mint: #5eead4;
+    --amber: #fbbf24;
+    --rose: #fb7185;
+    --violet: #c4b5fd;
+    --green: #86efac;
+    --grid: rgba(125, 211, 252, 0.04);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.7;
+    min-height: 100vh;
+    overflow-x: hidden;
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 32px 32px;
+    background-position: -1px -1px;
+  }
+
+  /* subtle vignette + scanlines */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.45) 100%),
+      repeating-linear-gradient(0deg, rgba(255,255,255,0.012) 0 1px, transparent 1px 3px);
+    z-index: 1;
+  }
+
+  ::selection { background: var(--cyan); color: var(--bg); }
+
+  /* ── Status bar ─────────────────────────────────────────── */
+  .status-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10, 12, 16, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 24px;
+    font-size: 12px;
+    color: var(--text-dim);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .status-bar .left, .status-bar .right { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .status-pill .dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 8px var(--green);
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
+  .status-bar .key { color: var(--text-muted); }
+  .status-bar .val { color: var(--text); }
+  .status-bar a { color: var(--cyan); text-decoration: none; }
+  .status-bar a:hover { text-decoration: underline; }
+
+  /* ── Container ──────────────────────────────────────────── */
+  main {
+    position: relative;
+    z-index: 2;
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 60px 32px 80px;
+  }
+
+  /* ── Hero / neofetch ────────────────────────────────────── */
+  .neofetch {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 48px;
+    align-items: center;
+    padding: 40px 0 64px;
+    border-bottom: 1px dashed var(--border-bright);
+    margin-bottom: 64px;
+  }
+
+  .ascii-art {
+    font-size: 11px;
+    line-height: 1.15;
+    color: var(--cyan);
+    white-space: pre;
+    text-shadow: 0 0 12px rgba(125, 211, 252, 0.35);
+    user-select: none;
+  }
+
+  .neo-info { font-size: 14px; }
+  .neo-info .user {
+    color: var(--mint);
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 4px;
+  }
+  .neo-info .sep {
+    color: var(--text-muted);
+    letter-spacing: 2px;
+    margin: 4px 0 12px;
+  }
+  .neo-info .row {
+    display: flex;
+    gap: 14px;
+    padding: 2px 0;
+  }
+  .neo-info .row .k {
+    color: var(--cyan);
+    font-weight: 600;
+    min-width: 92px;
+    flex-shrink: 0;
+  }
+  .neo-info .row .v { color: var(--text); }
+  .neo-info .row .v a { color: var(--text); text-decoration: none; border-bottom: 1px dotted var(--text-muted); }
+  .neo-info .row .v a:hover { color: var(--cyan); border-bottom-color: var(--cyan); }
+
+  .palette {
+    display: flex;
+    gap: 4px;
+    margin-top: 18px;
+  }
+  .palette span {
+    width: 22px;
+    height: 12px;
+    border-radius: 2px;
+  }
+
+  /* ── Section ────────────────────────────────────────────── */
+  section { margin-bottom: 72px; scroll-margin-top: 80px; }
+
+  .section-cmd {
+    color: var(--text-dim);
+    font-size: 14px;
+    margin-bottom: 8px;
+    letter-spacing: 0.02em;
+  }
+  .section-cmd .prompt { color: var(--mint); margin-right: 8px; }
+  .section-cmd .cmd { color: var(--cyan); }
+  .section-cmd .flag { color: var(--amber); }
+  .section-cmd .arg { color: var(--text); }
+
+  h2 {
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+  }
+  .section-sub {
+    color: var(--text-muted);
+    font-size: 13px;
+    margin-bottom: 28px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 16px;
+  }
+
+  /* ── About ──────────────────────────────────────────────── */
+  .about-text {
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.8;
+    max-width: 760px;
+  }
+  .about-text p + p { margin-top: 14px; }
+  .about-text .hl { color: var(--cyan); font-weight: 500; }
+  .about-text .amber { color: var(--amber); }
+  .about-text .mint { color: var(--mint); }
+
+  /* ── Experience ─────────────────────────────────────────── */
+  .job {
+    background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-elev) 100%);
+    border: 1px solid var(--border);
+    border-left: 2px solid var(--cyan);
+    padding: 24px 28px;
+    margin-bottom: 20px;
+    transition: border-color 0.2s, transform 0.2s;
+    position: relative;
+  }
+  .job:hover { border-color: var(--border-bright); border-left-color: var(--mint); }
+  .job:nth-child(2) { border-left-color: var(--violet); }
+  .job:nth-child(2):hover { border-left-color: var(--amber); }
+
+  .job-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 4px;
+  }
+  .job-title { font-size: 16px; font-weight: 600; color: var(--text); }
+  .job-title .role { color: var(--cyan); }
+  .job-title .at { color: var(--text-muted); margin: 0 6px; }
+  .job-meta {
+    color: var(--text-dim);
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+  }
+  .job-meta .status {
+    color: var(--green);
+    margin-left: 10px;
+  }
+  .job ul {
+    list-style: none;
+    margin-top: 16px;
+    color: var(--text);
+    font-size: 13.5px;
+    line-height: 1.75;
+  }
+  .job ul li {
+    padding-left: 22px;
+    position: relative;
+    margin-bottom: 8px;
+  }
+  .job ul li::before {
+    content: "›";
+    position: absolute;
+    left: 6px;
+    top: 0;
+    color: var(--mint);
+    font-weight: 700;
+  }
+  .job ul li strong { color: var(--cyan); font-weight: 500; }
+  .job ul li em { color: var(--amber); font-style: normal; }
+
+  /* ── Skills grid ────────────────────────────────────────── */
+  .skills {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 14px;
+  }
+  .skill-mod {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: 18px 20px;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .skill-mod:hover {
+    background: var(--bg-hover);
+    border-color: var(--cyan);
+    transform: translateY(-2px);
+  }
+  .skill-mod .label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: var(--mint);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 10px;
+  }
+  .skill-mod .label::before {
+    content: "▮";
+    color: var(--cyan);
+  }
+  .skill-mod .items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .skill-mod .items span {
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-size: 12px;
+    padding: 3px 9px;
+    border-radius: 2px;
+    transition: all 0.15s;
+  }
+  .skill-mod .items span:hover {
+    background: var(--bg);
+    border-color: var(--cyan);
+    color: var(--cyan);
+  }
+
+  /* ── Certs ──────────────────────────────────────────────── */
+  .certs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+  }
+  .cert {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: 20px;
+    text-align: center;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .cert::after {
+    content: "";
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+    transition: left 0.5s;
+  }
+  .cert:hover::after { left: 100%; }
+  .cert:hover {
+    border-color: var(--mint);
+    transform: translateY(-2px);
+  }
+  .cert .badge {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+  .cert .name {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--cyan);
+    letter-spacing: -0.01em;
+  }
+  .cert:nth-child(2) .name { color: var(--mint); }
+  .cert:nth-child(3) .name { color: var(--amber); }
+  .cert:nth-child(4) .name { color: var(--violet); }
+  .cert .org {
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-top: 6px;
+  }
+
+  /* ── Education ──────────────────────────────────────────── */
+  .education {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: 24px 28px;
+  }
+  .edu-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+  .edu-degree { font-size: 15px; font-weight: 600; color: var(--text); }
+  .edu-degree .school { color: var(--cyan); }
+  .edu-meta { font-size: 12px; color: var(--text-dim); font-variant-numeric: tabular-nums; }
+  .edu-meta .gpa { color: var(--amber); margin-left: 10px; }
+  .edu-courses {
+    margin-top: 10px;
+    font-size: 13px;
+    color: var(--text-dim);
+  }
+  .edu-courses .label { color: var(--mint); font-weight: 500; }
+
+  /* ── Contact ────────────────────────────────────────────── */
+  .contact-box {
+    background: var(--bg-card);
+    border: 1px solid var(--border-bright);
+    padding: 32px;
+    text-align: center;
+    position: relative;
+  }
+  .contact-box .prompt {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+  }
+  .contact-box .prompt .accent { color: var(--mint); }
+  .contact-box .lead {
+    font-size: 18px;
+    color: var(--text);
+    margin-bottom: 28px;
+    line-height: 1.6;
+  }
+  .contact-links {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .contact-links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    background: var(--bg);
+    border: 1px solid var(--border-bright);
+    color: var(--text);
+    text-decoration: none;
+    font-size: 13px;
+    transition: all 0.2s;
+  }
+  .contact-links a:hover {
+    background: var(--bg-hover);
+    border-color: var(--cyan);
+    color: var(--cyan);
+    transform: translateY(-1px);
+  }
+  .contact-links a .icon { color: var(--mint); }
+
+  /* ── Footer ─────────────────────────────────────────────── */
+  footer {
+    position: relative;
+    z-index: 2;
+    border-top: 1px solid var(--border);
+    padding: 24px 32px;
+    max-width: 1080px;
+    margin: 60px auto 0;
+    font-size: 12px;
+    color: var(--text-muted);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  footer .cursor {
+    display: inline-block;
+    width: 8px;
+    height: 14px;
+    background: var(--mint);
+    vertical-align: middle;
+    margin-left: 4px;
+    animation: blink 1s steps(2) infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+  footer a { color: var(--cyan); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  /* ── Reveal animation ───────────────────────────────────── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(12px);
+    animation: reveal 0.6s ease forwards;
+  }
+  @keyframes reveal { to { opacity: 1; transform: translateY(0); } }
+
+  /* ── Mobile ─────────────────────────────────────────────── */
+  @media (max-width: 760px) {
+    main { padding: 40px 20px 60px; }
+    .neofetch {
+      grid-template-columns: 1fr;
+      gap: 28px;
+      text-align: left;
+    }
+    .ascii-art { font-size: 9px; overflow-x: auto; }
+    .neo-info .row { flex-direction: column; gap: 2px; padding: 6px 0; }
+    .neo-info .row .k { min-width: 0; }
+    h2 { font-size: 22px; }
+    .job, .education, .contact-box { padding: 20px; }
+    .job-head { flex-direction: column; gap: 4px; }
+    .status-bar { padding: 8px 16px; font-size: 11px; }
+    .status-bar .left, .status-bar .right { gap: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── Status bar ─────────────────────────────────────────── -->
+<div class="status-bar">
+  <div class="left">
+    <span class="status-pill"><span class="dot"></span><span class="val">ONLINE</span></span>
+    <span><span class="key">host:</span> <span class="val">matthieu.dev</span></span>
+    <span class="hide-mobile"><span class="key">loc:</span> <span class="val">SEA / PST</span></span>
+  </div>
+  <div class="right">
+    <span><span class="key">tty:</span> <span class="val" id="clock">--:--:--</span></span>
+    <a href="#contact">~/contact</a>
+  </div>
+</div>
+
+<main>
+
+  <!-- ── Hero / neofetch ──────────────────────────────────── -->
+  <header class="neofetch reveal" style="animation-delay: 0.1s">
+    <pre class="ascii-art" aria-hidden="true">
+   ███╗   ███╗██████╗ 
+   ████╗ ████║██╔══██╗
+   ██╔████╔██║██║  ██║
+   ██║╚██╔╝██║██║  ██║
+   ██║ ╚═╝ ██║██████╔╝
+   ╚═╝     ╚═╝╚═════╝ </pre>
+    <div class="neo-info">
+      <div class="user">matthieu@dubray.dev</div>
+      <div class="sep">────────────────────────────</div>
+      <div class="row"><span class="k">Name</span><span class="v">Matthieu Dubray</span></div>
+      <div class="row"><span class="k">Role</span><span class="v">Systems Administrator / IT Engineer</span></div>
+      <div class="row"><span class="k">Location</span><span class="v">Seattle, WA · PST</span></div>
+      <div class="row"><span class="k">Focus</span><span class="v">M365 · Azure AD · Networking · SecOps</span></div>
+      <div class="row"><span class="k">Status</span><span class="v" style="color: var(--green);">Open to opportunities</span></div>
+      <div class="row"><span class="k">Email</span><span class="v"><a href="mailto:matthieu.l.dubray@gmail.com">matthieu.l.dubray@gmail.com</a></span></div>
+      <div class="row"><span class="k">LinkedIn</span><span class="v"><a href="https://linkedin.com/in/matthieu-dubray" target="_blank" rel="noopener">/in/matthieu-dubray</a></span></div>
+      <div class="palette" aria-hidden="true">
+        <span style="background: var(--cyan)"></span>
+        <span style="background: var(--mint)"></span>
+        <span style="background: var(--green)"></span>
+        <span style="background: var(--amber)"></span>
+        <span style="background: var(--rose)"></span>
+        <span style="background: var(--violet)"></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── About ────────────────────────────────────────────── -->
+  <section id="about" class="reveal" style="animation-delay: 0.2s">
+    <div class="section-cmd"><span class="prompt">$</span><span class="cmd">cat</span> <span class="arg">~/about.md</span></div>
+    <h2>// whoami</h2>
+    <div class="section-sub">Sysadmin, infrastructure generalist, and recovering ticket-closer.</div>
+    <div class="about-text">
+      <p>I'm an <span class="hl">IT engineer based in Seattle</span> with hands-on experience running the full stack of modern small/mid-business infrastructure — from <span class="mint">Microsoft 365 and Entra ID tenants</span> to switch closets, wireless deployments, and security incident response.</p>
+      <p>Currently providing L2/L3 support for 70+ MSP clients at Teal Group Technologies, where I close 50–60 tickets a week, run on-site network deployments, and lead malware triage and account compromise response. Before that, I deployed <span class="amber">500+ Dell PowerEdge servers</span> as a datacenter technician on a Microsoft contract.</p>
+      <p>I like the work that lives at the intersection of <span class="hl">cloud identity, endpoint management, and the physical network</span> — the layer where Intune policies meet VLAN tags meet the user who still can't print. Comfortable on a ladder pulling cable, and comfortable in PowerShell writing the script that means I don't have to do it again next week.</p>
+    </div>
+  </section>
+
+  <!-- ── Experience ───────────────────────────────────────── -->
+  <section id="experience" class="reveal" style="animation-delay: 0.3s">
+    <div class="section-cmd"><span class="prompt">$</span><span class="cmd">history</span> <span class="flag">--employment</span> <span class="flag">--verbose</span></div>
+    <h2>// experience</h2>
+    <div class="section-sub">Recent roles and what I actually did in them.</div>
+
+    <article class="job">
+      <div class="job-head">
+        <div class="job-title"><span class="role">Helpdesk Technician (L2/L3)</span><span class="at">@</span>Teal Group Technologies</div>
+        <div class="job-meta">Feb 2025 – Present <span class="status">● active</span></div>
+      </div>
+      <ul>
+        <li>Provide <strong>L2/L3 support</strong> across 70+ MSP clients — 50-60 tickets/week through Autotask and ServiceNow, average resolution <em>15–30 min</em> via Datto RMM and GoToAssist.</li>
+        <li>Administer <strong>Microsoft 365 and Entra ID</strong> environments: identity, conditional access, licensing, mailbox and tenant operations.</li>
+        <li>Deploy and manage endpoints with <strong>Microsoft Intune</strong> — software distribution, Windows update rings, and Group Policy to standardize and harden client environments.</li>
+        <li>Primary <strong>on-site network engineer</strong>: Cisco / Ubiquiti / Netgear switch and VLAN configuration, AP deployment, NVR and camera installs, plus low-voltage cabling for client locations.</li>
+        <li>Lead <strong>security incident response</strong> using Huntress — isolate compromised endpoints, disable accounts, audit Entra sign-in logs, review Outlook rules and OAuth consent grants, coordinate user comms during triage.</li>
+        <li>Own <strong>backup verification</strong> across Veeam and Datto — weekly job review, failure triage, and test restores to keep DR posture honest.</li>
+        <li>Write the docs nobody else wants to write: client-specific runbooks and common-issue KB articles, cutting team-wide resolution time.</li>
+        <li>Scope and execute <strong>network expansions</strong> end-to-end — switches, APs, firewalls.</li>
+      </ul>
+    </article>
+
+    <article class="job">
+      <div class="job-head">
+        <div class="job-title"><span class="role">Datacenter Technician</span><span class="at">@</span>Microsoft (Contract)</div>
+        <div class="job-meta">Jun 2024 – Jan 2025</div>
+      </div>
+      <ul>
+        <li>Deployed <strong>500+ Dell PowerEdge servers</strong> and a 500-device specialized test infrastructure: rack, cable, BIOS/OS provisioning, and integration into Microsoft production environments.</li>
+        <li>Acted as <strong>technical liaison</strong> between deployment crews and project managers — real-time status, blocker triage, and workflow optimization to accelerate timelines.</li>
+        <li>Authored and refined <strong>deployment procedures and documentation</strong> to standardize operations across multiple datacenter facilities.</li>
+      </ul>
+    </article>
+  </section>
+
+  <!-- ── Skills ───────────────────────────────────────────── -->
+  <section id="skills" class="reveal" style="animation-delay: 0.4s">
+    <div class="section-cmd"><span class="prompt">$</span><span class="cmd">ls</span> <span class="flag">-la</span> <span class="arg">~/skills/</span></div>
+    <h2>// stack</h2>
+    <div class="section-sub">Tools, platforms, and languages I actually use.</div>
+
+    <div class="skills">
+      <div class="skill-mod">
+        <div class="label">Cloud &amp; Identity</div>
+        <div class="items">
+          <span>Microsoft 365</span><span>Entra ID / Azure AD</span><span>Active Directory</span>
+          <span>Intune</span><span>Conditional Access</span><span>Group Policy</span>
+        </div>
+      </div>
+
+      <div class="skill-mod">
+        <div class="label">Networking</div>
+        <div class="items">
+          <span>TCP/IP</span><span>DNS</span><span>DHCP</span><span>VLANs</span>
+          <span>Cisco</span><span>Ubiquiti</span><span>Netgear</span>
+          <span>Firewalls</span><span>WAPs</span><span>Cabling</span>
+        </div>
+      </div>
+
+      <div class="skill-mod">
+        <div class="label">Security &amp; Response</div>
+        <div class="items">
+          <span>Huntress</span><span>Wireshark</span><span>Nmap</span>
+          <span>Metasploit</span><span>Snort</span><span>SIEM</span>
+          <span>Malware Triage</span><span>IR</span>
+        </div>
+      </div>
+
+      <div class="skill-mod">
+        <div class="label">Endpoint &amp; RMM</div>
+        <div class="items">
+          <span>Datto RMM</span><span>Intune</span>
+          <span>Patch Mgmt</span><span>Software Deploy</span>
+        </div>
+      </div>
+
+      <div class="skill-mod">
+        <div class="label">Backup &amp; DR</div>
+        <div class="items">
+          <span>Veeam</span><span>Datto</span>
+          <span>Test Restores</span><span>Backup Verification</span>
+        </div>
+      </div>
+
+      <div class="skill-mod">
+        <div class="label">Ticketing &amp; Remote</div>
+        <div class="items">
+          <span>Autotask</span><span>ServiceNow</span>
+          <span>GoToAssist</span><span>RDP</span>
+        </div>
+      </div>
+
+      <div class="skill-mod">
+        <div class="label">Operating Systems</div>
+        <div class="items">
+          <span>Windows 10/11</span><span>Windows Server</span>
+          <span>Linux / Server</span><span>macOS</span>
+        </div>
+      </div>
+
+      <div class="skill-mod">
+        <div class="label">Scripting &amp; Programming</div>
+        <div class="items">
+          <span>PowerShell</span><span>Bash</span>
+          <span>Python</span><span>JavaScript</span><span>SQL</span>
+        </div>
+      </div>
+
+      <div class="skill-mod">
+        <div class="label">Infrastructure &amp; Hardware</div>
+        <div class="items">
+          <span>Dell PowerEdge</span><span>SAN / NAS / JBOD</span>
+          <span>Proxmox</span><span>Rack &amp; Cable</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Certs ────────────────────────────────────────────── -->
+  <section id="certs" class="reveal" style="animation-delay: 0.5s">
+    <div class="section-cmd"><span class="prompt">$</span><span class="cmd">cat</span> <span class="arg">/etc/certs/*</span></div>
+    <h2>// certifications</h2>
+    <div class="section-sub">Verified, current, and earned the hard way.</div>
+
+    <div class="certs">
+      <div class="cert">
+        <div class="badge">[CompTIA]</div>
+        <div class="name">A+</div>
+        <div class="org">IT Fundamentals</div>
+      </div>
+      <div class="cert">
+        <div class="badge">[CompTIA]</div>
+        <div class="name">Network+</div>
+        <div class="org">Networking</div>
+      </div>
+      <div class="cert">
+        <div class="badge">[CompTIA]</div>
+        <div class="name">Security+</div>
+        <div class="org">Cybersecurity</div>
+      </div>
+      <div class="cert">
+        <div class="badge">[Cisco]</div>
+        <div class="name">CCNA</div>
+        <div class="org">Routing &amp; Switching</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Education ────────────────────────────────────────── -->
+  <section id="education" class="reveal" style="animation-delay: 0.6s">
+    <div class="section-cmd"><span class="prompt">$</span><span class="cmd">cat</span> <span class="arg">~/education.txt</span></div>
+    <h2>// education</h2>
+    <div class="section-sub">Where the foundation got laid.</div>
+
+    <div class="education">
+      <div class="edu-head">
+        <div class="edu-degree">B.A.S. Computing &amp; Software Development <span class="at" style="color: var(--text-muted)">·</span> <span class="school">Lake Washington Technical College</span></div>
+        <div class="edu-meta">Spring 2022 <span class="gpa">GPA 3.5</span></div>
+      </div>
+      <div class="edu-courses">
+        <span class="label">Coursework →</span> Computer/Network Architecture · Cloud Computing · Information Assurance &amp; Cybersecurity · Network &amp; System Security · Ethical Penetration Testing · Malware Reverse Engineering
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Contact ──────────────────────────────────────────── -->
+  <section id="contact" class="reveal" style="animation-delay: 0.7s">
+    <div class="section-cmd"><span class="prompt">$</span><span class="cmd">ssh</span> <span class="arg">matthieu@dubray.dev</span></div>
+    <h2>// get in touch</h2>
+    <div class="section-sub">Best ways to reach me.</div>
+
+    <div class="contact-box">
+      <div class="prompt">
+        <span class="accent">~/inbox</span> $ awaiting connection<span style="color: var(--mint)">_</span>
+      </div>
+      <div class="lead">
+        Open to systems admin, infrastructure, and SecOps roles in the Seattle area or remote. Always happy to chat shop.
+      </div>
+      <div class="contact-links">
+        <a href="mailto:matthieu.l.dubray@gmail.com">
+          <span class="icon">✉</span> Email
+        </a>
+        <a href="https://linkedin.com/in/matthieu-dubray" target="_blank" rel="noopener">
+          <span class="icon">in</span> LinkedIn
+        </a>
+        <a href="tel:+14255034903">
+          <span class="icon">☏</span> (425) 503-4903
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div>
+    © <span id="year">2026</span> Matthieu Dubray · built with HTML, CSS, &amp; caffeine<span class="cursor"></span>
+  </div>
+  <div>
+    <a href="#about">~/top</a>
+  </div>
+</footer>
+
+<script>
+  // live clock for status bar
+  function tick() {
+    const d = new Date();
+    const t = d.toLocaleTimeString('en-US', { hour12: false });
+    const el = document.getElementById('clock');
+    if (el) el.textContent = t;
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  // year
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
