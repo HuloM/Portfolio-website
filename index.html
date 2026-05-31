@@ -302,16 +302,19 @@
     flex-wrap: wrap;
     gap: 6px;
   }
-  .skill-mod .items span {
+  .skill-mod .items a {
     background: var(--bg-elev);
     border: 1px solid var(--border);
     color: var(--text);
     font-size: 12px;
     padding: 3px 9px;
     border-radius: 2px;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
     transition: all 0.15s;
   }
-  .skill-mod .items span:hover {
+  .skill-mod .items a:hover {
     background: var(--bg);
     border-color: var(--cyan);
     color: var(--cyan);
@@ -558,18 +561,20 @@
 
     <article class="job">
       <div class="job-head">
-        <div class="job-title"><span class="role">Helpdesk Technician (L2/L3)</span><span class="at">@</span>Teal Group Technologies</div>
+        <div class="job-title"><span class="role">Systems Administrator / Network &amp; Infrastructure (L2/L3)</span><span class="at">@</span>Teal Group Technologies</div>
         <div class="job-meta">Feb 2025 – Present <span class="status">● active</span></div>
       </div>
       <ul>
         <li>Provide <strong>L2/L3 support</strong> across 70+ MSP clients — 50-60 tickets/week through Autotask and ServiceNow, average resolution <em>15–30 min</em> via Datto RMM and GoToAssist.</li>
         <li>Administer <strong>Microsoft 365 and Entra ID</strong> environments: identity, conditional access, licensing, mailbox and tenant operations.</li>
-        <li>Deploy and manage endpoints with <strong>Microsoft Intune</strong> — software distribution, Windows update rings, and Group Policy to standardize and harden client environments.</li>
-        <li>Primary <strong>on-site network engineer</strong>: Cisco / Ubiquiti / Netgear switch and VLAN configuration, AP deployment, NVR and camera installs, plus low-voltage cabling for client locations.</li>
+        <li>Build and manage <strong>Microsoft Intune</strong> policy — compliance and configuration profiles, app deployment policies, and Windows update rings to standardize and harden client fleets.</li>
+        <li>Stand up <strong>Cloudflare Zero Trust (ZTNA)</strong> for client remote access, and run cloud printing through <strong>PrinterLogic / Vasion Print</strong>.</li>
+        <li>Primary <strong>on-site network tech</strong>: Cisco / Ubiquiti / Netgear switch and VLAN configuration, AP deployment, <strong>firewall</strong> config, and <strong>site-to-site VPN</strong> tunnels between client locations.</li>
+        <li>Run <strong>structured and low-voltage cabling</strong> — patch panel and keystone termination — plus <strong>security / AV installs</strong> (NVR, cameras) with conduit and raceway.</li>
         <li>Lead <strong>security incident response</strong> using Huntress — isolate compromised endpoints, disable accounts, audit Entra sign-in logs, review Outlook rules and OAuth consent grants, coordinate user comms during triage.</li>
         <li>Own <strong>backup verification</strong> across Veeam and Datto — weekly job review, failure triage, and test restores to keep DR posture honest.</li>
+        <li>Scope and execute <strong>network expansions</strong> end-to-end — switches, APs, firewalls, and the cabling to tie it together.</li>
         <li>Write the docs nobody else wants to write: client-specific runbooks and common-issue KB articles, cutting team-wide resolution time.</li>
-        <li>Scope and execute <strong>network expansions</strong> end-to-end — switches, APs, firewalls.</li>
       </ul>
     </article>
 
@@ -596,74 +601,91 @@
       <div class="skill-mod">
         <div class="label">Cloud &amp; Identity</div>
         <div class="items">
-          <span>Microsoft 365</span><span>Entra ID / Azure AD</span><span>Active Directory</span>
-          <span>Intune</span><span>Conditional Access</span><span>Group Policy</span>
+          <a href="https://learn.microsoft.com/en-us/microsoft-365/" target="_blank" rel="noopener">Microsoft 365</a><a href="https://learn.microsoft.com/en-us/entra/identity/" target="_blank" rel="noopener">Entra ID / Azure AD</a><a href="https://en.wikipedia.org/wiki/Active_Directory" target="_blank" rel="noopener">Active Directory</a>
+          <a href="https://learn.microsoft.com/en-us/intune/" target="_blank" rel="noopener">Intune</a><a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/" target="_blank" rel="noopener">Conditional Access</a><a href="https://en.wikipedia.org/wiki/Group_Policy" target="_blank" rel="noopener">Group Policy</a>
         </div>
       </div>
 
       <div class="skill-mod">
         <div class="label">Networking</div>
         <div class="items">
-          <span>TCP/IP</span><span>DNS</span><span>DHCP</span><span>VLANs</span>
-          <span>Cisco</span><span>Ubiquiti</span><span>Netgear</span>
-          <span>Firewalls</span><span>WAPs</span><span>Cabling</span>
+          <a href="https://en.wikipedia.org/wiki/Internet_protocol_suite" target="_blank" rel="noopener">TCP/IP</a><a href="https://en.wikipedia.org/wiki/Domain_Name_System" target="_blank" rel="noopener">DNS</a><a href="https://en.wikipedia.org/wiki/Dynamic_Host_Configuration_Protocol" target="_blank" rel="noopener">DHCP</a><a href="https://en.wikipedia.org/wiki/VLAN" target="_blank" rel="noopener">VLANs</a>
+          <a href="https://www.cisco.com/" target="_blank" rel="noopener">Cisco</a><a href="https://www.ui.com/" target="_blank" rel="noopener">Ubiquiti</a><a href="https://www.netgear.com/" target="_blank" rel="noopener">Netgear</a>
+          <a href="https://en.wikipedia.org/wiki/Firewall_(computing)" target="_blank" rel="noopener">Firewalls</a><a href="https://en.wikipedia.org/wiki/Virtual_private_network" target="_blank" rel="noopener">Site-to-Site VPN</a><a href="https://en.wikipedia.org/wiki/Wireless_access_point" target="_blank" rel="noopener">WAPs</a>
+        </div>
+      </div>
+
+      <div class="skill-mod">
+        <div class="label">Access &amp; Zero Trust</div>
+        <div class="items">
+          <a href="https://developers.cloudflare.com/cloudflare-one/" target="_blank" rel="noopener">Cloudflare Zero Trust (ZTNA)</a><a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/" target="_blank" rel="noopener">Conditional Access</a>
+          <a href="https://en.wikipedia.org/wiki/Network_segmentation" target="_blank" rel="noopener">Network Segmentation</a>
+        </div>
+      </div>
+
+      <div class="skill-mod">
+        <div class="label">Cabling &amp; Low-Voltage</div>
+        <div class="items">
+          <a href="https://en.wikipedia.org/wiki/Structured_cabling" target="_blank" rel="noopener">Structured Cabling</a><a href="https://en.wikipedia.org/wiki/Patch_panel" target="_blank" rel="noopener">Patch Panel &amp; Keystone</a>
+          <a href="https://en.wikipedia.org/wiki/Low_voltage" target="_blank" rel="noopener">Low-Voltage</a><a href="https://en.wikipedia.org/wiki/Network_video_recorder" target="_blank" rel="noopener">Security / AV (NVR, Cameras)</a>
+          <a href="https://en.wikipedia.org/wiki/Electrical_conduit" target="_blank" rel="noopener">Conduit &amp; Raceway</a>
         </div>
       </div>
 
       <div class="skill-mod">
         <div class="label">Security &amp; Response</div>
         <div class="items">
-          <span>Huntress</span><span>Wireshark</span><span>Nmap</span>
-          <span>Metasploit</span><span>Snort</span><span>SIEM</span>
-          <span>Malware Triage</span><span>IR</span>
+          <a href="https://www.huntress.com/" target="_blank" rel="noopener">Huntress</a><a href="https://www.wireshark.org/" target="_blank" rel="noopener">Wireshark</a><a href="https://nmap.org/" target="_blank" rel="noopener">Nmap</a>
+          <a href="https://www.metasploit.com/" target="_blank" rel="noopener">Metasploit</a><a href="https://www.snort.org/" target="_blank" rel="noopener">Snort</a><a href="https://en.wikipedia.org/wiki/Security_information_and_event_management" target="_blank" rel="noopener">SIEM</a>
+          <a href="https://en.wikipedia.org/wiki/Malware_analysis" target="_blank" rel="noopener">Malware Triage</a><a href="https://en.wikipedia.org/wiki/Computer_security_incident_management" target="_blank" rel="noopener">IR</a>
         </div>
       </div>
 
       <div class="skill-mod">
         <div class="label">Endpoint &amp; RMM</div>
         <div class="items">
-          <span>Datto RMM</span><span>Intune</span>
-          <span>Patch Mgmt</span><span>Software Deploy</span>
+          <a href="https://www.datto.com/products/datto-rmm/" target="_blank" rel="noopener">Datto RMM</a><a href="https://learn.microsoft.com/en-us/intune/" target="_blank" rel="noopener">Intune (Compliance / Config / App)</a>
+          <a href="https://www.vasion.com/" target="_blank" rel="noopener">PrinterLogic / Vasion Print</a><a href="https://en.wikipedia.org/wiki/Patch_(computing)" target="_blank" rel="noopener">Patch Mgmt</a><a href="https://en.wikipedia.org/wiki/Software_deployment" target="_blank" rel="noopener">Software Deploy</a>
         </div>
       </div>
 
       <div class="skill-mod">
         <div class="label">Backup &amp; DR</div>
         <div class="items">
-          <span>Veeam</span><span>Datto</span>
-          <span>Test Restores</span><span>Backup Verification</span>
+          <a href="https://www.veeam.com/" target="_blank" rel="noopener">Veeam</a><a href="https://www.datto.com/" target="_blank" rel="noopener">Datto</a>
+          <a href="https://en.wikipedia.org/wiki/Backup" target="_blank" rel="noopener">Test Restores</a><a href="https://en.wikipedia.org/wiki/Backup_validation" target="_blank" rel="noopener">Backup Verification</a>
         </div>
       </div>
 
       <div class="skill-mod">
         <div class="label">Ticketing &amp; Remote</div>
         <div class="items">
-          <span>Autotask</span><span>ServiceNow</span>
-          <span>GoToAssist</span><span>RDP</span>
+          <a href="https://www.datto.com/products/autotask-psa/" target="_blank" rel="noopener">Autotask</a><a href="https://www.servicenow.com/" target="_blank" rel="noopener">ServiceNow</a>
+          <a href="https://www.goto.com/" target="_blank" rel="noopener">GoToAssist</a><a href="https://en.wikipedia.org/wiki/Remote_Desktop_Protocol" target="_blank" rel="noopener">RDP</a>
         </div>
       </div>
 
       <div class="skill-mod">
         <div class="label">Operating Systems</div>
         <div class="items">
-          <span>Windows 10/11</span><span>Windows Server</span>
-          <span>Linux / Server</span><span>macOS</span>
+          <a href="https://en.wikipedia.org/wiki/Microsoft_Windows" target="_blank" rel="noopener">Windows 10/11</a><a href="https://learn.microsoft.com/en-us/windows-server/" target="_blank" rel="noopener">Windows Server</a>
+          <a href="https://en.wikipedia.org/wiki/Linux" target="_blank" rel="noopener">Linux / Server</a><a href="https://en.wikipedia.org/wiki/MacOS" target="_blank" rel="noopener">macOS</a>
         </div>
       </div>
 
       <div class="skill-mod">
         <div class="label">Scripting &amp; Programming</div>
         <div class="items">
-          <span>PowerShell</span><span>Bash</span>
-          <span>Python</span><span>JavaScript</span><span>SQL</span>
+          <a href="https://learn.microsoft.com/en-us/powershell/" target="_blank" rel="noopener">PowerShell</a><a href="https://www.gnu.org/software/bash/" target="_blank" rel="noopener">Bash</a>
+          <a href="https://www.python.org/" target="_blank" rel="noopener">Python</a><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" rel="noopener">JavaScript</a><a href="https://en.wikipedia.org/wiki/SQL" target="_blank" rel="noopener">SQL</a>
         </div>
       </div>
 
       <div class="skill-mod">
         <div class="label">Infrastructure &amp; Hardware</div>
         <div class="items">
-          <span>Dell PowerEdge</span><span>SAN / NAS / JBOD</span>
-          <span>Proxmox</span><span>Rack &amp; Cable</span>
+          <a href="https://en.wikipedia.org/wiki/Dell_PowerEdge" target="_blank" rel="noopener">Dell PowerEdge</a><a href="https://en.wikipedia.org/wiki/Storage_area_network" target="_blank" rel="noopener">SAN / NAS / JBOD</a>
+          <a href="https://www.proxmox.com/" target="_blank" rel="noopener">Proxmox</a><a href="https://en.wikipedia.org/wiki/19-inch_rack" target="_blank" rel="noopener">Rack &amp; Cable</a>
         </div>
       </div>
     </div>
